@@ -4,7 +4,7 @@ p0 = (0,0)
 p1 = (5,9)
 
 
-N = 50     #Number of pixel
+N = 500     #Number of pixel
 Size = 1000  #sizeWindows
 n = Size/N
 marge = 10
@@ -12,21 +12,28 @@ marge = 10
 a = (p1[1] - p0[1]) / (p1[0] - p0[0])
 
 
-def draw_pixel(window, x, y, z, n):
+def draw_pixel(window, x, y, z, n,color="black"):
     x1 = x*n+marge
     y1 = Size-y*n+marge
     x2 = n*(x+1)+marge
     y2 = Size-n*(y+1)+marge
-    window.create_rectangle(x1,y1 ,x2 ,y2 , fill="black")
+    if(color == "black"):
+        window.create_rectangle(x1,y1 ,x2 ,y2 , fill="#%02x%02x%02x" % (int(z), int(z), int(z)), outline="#%02x%02x%02x" % (int(z), int(z), int(z)))
+    if(color == "red"):
+        window.create_rectangle(x1,y1 ,x2 ,y2 , fill="#%02x0000" % int(z), outline="#%02x0000" % int(z))
+    if(color == "blue"):
+        window.create_rectangle(x1,y1 ,x2 ,y2 , fill="#0000%02x" % int(z), outline="#0000%02x" % int(z))
+    if(color == "green"):
+        window.create_rectangle(x1,y1 ,x2 ,y2 , fill="#00%02x00" % int(z), outline="#00%02x00" % int(z))
     x_center = (x1+x2)/2
     y_center = (y1+y2)/2
-    window.create_text(x_center, y_center, text=z, fill="white",font=("Helvetica", int(0.4*n)))
+    #window.create_text(x_center, y_center, text=z, fill="white",font=("Helvetica", int(0.4*n)))
 
 def draw_matrice(window,m, n):
     for i in range(len(m)):
         for j in range(len(m[i])):
             if m[i][j]!=-1:
-                draw_pixel(window,i,j,m[i][j],n)
+                draw_pixel(window,i,j,m[i][j],n,"blue")
 
 def init():
     master = Tk()
@@ -126,11 +133,7 @@ def MatriceSegment2(x1, y1 ,z1 , x2, y2, z2, m):
                 edz += dx
 
 
-def traceFacette(window,x1,y1,z1,x2,y2,z2,x3,y3,z3,n):
-    # Initialisation de la matrice
-    m = [-1] * N
-    for i in range(N):
-        m[i] = [-1] * N
+def traceFacette(window,x1,y1,z1,x2,y2,z2,x3,y3,z3,n,m):
     
     #tracage des 3 segments
     MatriceSegment2(x1,y1,z1,x2,y2,z2,m)
@@ -138,34 +141,45 @@ def traceFacette(window,x1,y1,z1,x2,y2,z2,x3,y3,z3,n):
     MatriceSegment2(x1,y1,z1,x3,y3,z3,m)
 
     #remplissage colone par colone
-    # for h in range(N):
+    for h in range(N):
 
-    #     #trouver le x le plus petit, puis le plus grand
-    #     y1 = -1
-    #     y2 = -1
-    #     for i in range(N):
-    #         if(m[h][i]!=-1 and y1 != -1):
-    #             y2 = i
-    #             z2 = m[h][i]
-    #         if(m[h][i]!=-1 and y1 == -1):
-    #             y1 = i
-    #             z1 = m[h][i]
-    #     #remplissage y
-    #     if(y1 != -1 and y2 != -1):
-    #         dy = y2 - y1
-    #         dz = z2-z1
-    #         e = y2-y1
-    #         while y2>=y1:
-    #             m[h][y1] = z1
-    #             y1 += 1
-    #             e -= dz
-    #             while e<=0:
-    #                 z1 +=1
-    #                 e +=dy
+        #trouver le x le plus petit, puis le plus grand
+        y1 = -1
+        y2 = -1
+        for i in range(N):
+            if(m[h][i]!=-1 and y1 != -1):
+                y2 = i
+                z2 = m[h][i]
+            if(m[h][i]!=-1 and y1 == -1):
+                y1 = i
+                z1 = m[h][i]
+        #remplissage y
+        if(y1 != -1 and y2 != -1):
+            dy = y2 - y1
+            dz = z2-z1
+            e = y2-y1
+            while y2>=y1:
+                m[h][y1] = z1
+                y1 += 1
+                e -= dz
+                while e<=0:
+                    z1 +=1
+                    e +=dy
 
-    draw_matrice(window,m,n)
+    #draw_matrice(window,m,n)
 
     
+def matriceProfondeur(window,m1,m2,color,n):
+    for i in range(len(m1)):
+        for j in range(len(m1[i])):
+            if (m1[i][j]!=-1 or m2[i][j]!=-1):
+                if(m1[i][j]==-1):
+                    m1[i][j] = m2[i][j]
+                    draw_pixel(window,i,j,m1[i][j],n,color)
+                elif(m1[i][j]>=m2[i][j] and m2[i][j]!=-1):
+                    m1[i][j] = m2[i][j]
+                    draw_pixel(window,i,j,m1[i][j],n,color)
+                    
 
 
 
@@ -193,7 +207,25 @@ def main():
     # tracerSegment(window,16,24,10,30,10,50,n) #15
     # tracerSegment(window,18,24,15,30,10,50,n) #16
 
-    traceFacette(window,20,14,12,2,45,4,45,42,45,n)
+     # Initialisation de la matrice
+    m = [-1] * N
+    for i in range(N):
+        m[i] = [-1] * N
+    m2 = [-1] * N
+    for i in range(N):
+        m2[i] = [-1] * N
+    m3 = [-1] * N
+    for i in range(N):
+        m3[i] = [-1] * N
+
+    a = 10
+
+    traceFacette(window,20*a,14*a,100,2*a,45*a,4,45*a,42*a,80,n,m)
+    traceFacette(window,1*a,25*a,100,5*a,46*a,4,45*a,20*a,25,n,m2)
+    draw_matrice(window,m,n)
+    matriceProfondeur(window,m,m2,"red",n)
+    traceFacette(window,20*a,14*a,100,2*a,45*a,4,5*a,5*a,50,n,m3)
+    matriceProfondeur(window,m,m3,"green",n)
 
 
 
