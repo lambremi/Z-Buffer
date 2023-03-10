@@ -48,50 +48,32 @@ from src.Color import *
 #                 edz += dx
 
 
-def draw_matrice(window,m, n, p1, p2, p3, color1=None, color2=None, color3=None):
+def draw_matrice(window, m, n):
     for i in range(len(m)):
         for j in range(len(m[i])):
-            if m[i][j] != -1:
-                p = (i, j, m[i][j])
-                if type(color1) == np.ndarray and type(color2) == np.ndarray:
-                    # b is the barycenter of (p1, color1) and (p2, color2)
-                    b = barycenter_calc(p1, p2, p, color1, color2)
-                    if type(color3) == np.ndarray:
-                        # pb is the geometrical barycenter of p1 and p2
-                        pb = ((p1[0]+p2[0])//2, (p1[1]+p2[1])//2, (p1[2]+p2[2])//2)
-                        # b becomes the barycenter of (pb, b) and (p3, color3)
-                        b = barycenter_calc(p3, pb, p, color3, b)
-                    # creation of a string which represents an RGB code
-                    color = color_creation(b)
-                elif type(color1) != np.ndarray:
-                    color = color1
-                else:
-                    color = "black"
-                draw_pixel(window, i, j, m[i][j], n, color)
+            if m[i][j][0]!= -1:
+                draw_pixel(window, i, j, m[i][j][0], n, color_creation(m[i][j][1]))
 
 
-def MatriceSegment2(x1, y1, z1, x2, y2, z2, m):
+def MatriceSegment2(x1, y1, z1, color1, x2, y2, z2, color2, m):
+    c1, c2 = np.copy(color1), np.copy(color2)
     dx = abs(x1 - x2)
     dy = abs(y1 - y2)
-    dz = abs(z2 - z1)
+    dz = abs(z1 - z2)
+    dc = abs(c1 - c2)
 
     if (dx == 0):
-        m[x1][y1] = z1
-        m[x2][y2] = z2
+        m[x1][y1] = z1, c1
+        m[x2][y2] = z2, c2
     else:
         # detection de la granularité la plus fine
         # y est la plus fine (quart sup ou inf)
         # si point de droite a gauche, on inverse
         if (x2 < x1):
-            xchange = x1
-            x1 = x2
-            x2 = xchange
-            ychange = y1
-            y1 = y2
-            y2 = ychange
-            zchange = z1
-            z1 = z2
-            z2 = zchange
+            x1, x2 = x2, x1
+            y1, y2 = y2, y1
+            z1, z2 = z2, z1
+            c1, c2 = c2, c1
         # detction si on va vers y pos ou neg
         ydeplacement = 1
         if (y1 > y2):
@@ -99,31 +81,43 @@ def MatriceSegment2(x1, y1, z1, x2, y2, z2, m):
         zdeplacement = 1
         if (z1 > z2):
             zdeplacement = -1
+        cdeplacement = np.array([1, 1, 1])
+        for i in range(3):
+            if c1[i] > c2[i]:
+                cdeplacement[i] = -1
 
         e = x2 - x1
         edz = x2 - x1
+        edc = np.array([x2-x1 for _ in range(3)])
 
         while x2 >= x1:
-            m[x1][y1] = z1
+            m[x1][y1][0] = z1
+            m[x1][y1][1] = np.copy(c1)
             x1 += 1
             e -= dy
             edz -= dz
+            edc -= dc
             while e <= 0:
                 y1 += ydeplacement
                 e += dx
             while edz <= 0:
                 z1 += zdeplacement
                 edz += dx
+            for i in range(3):
+                while edc[i] <= 0:
+                    c1[i] += cdeplacement[i]
+                    edc[i] += dx
 
 
-def traceFacette(window, p1, p2, p3, n, m):
+def traceFacette(window, p1, p2, p3, color1, color2, color3, n, m):
     # tracage des 3 segments
+    c1, c2, c3 = np.copy(color1), np.copy(color2), np.copy(color3)
     x1, y1, z1 = p1
     x2, y2, z2 = p2
     x3, y3, z3 = p3
-    MatriceSegment2(x1, y1, z1, x2, y2, z2, m)
-    MatriceSegment2(x3, y3, z3, x2, y2, z2, m)
-    MatriceSegment2(x1, y1, z1, x3, y3, z3, m)
+    MatriceSegment2(x1, y1, z1, c1, x2, y2, z2, c2, m)
+    MatriceSegment2(x3, y3, z3, c3, x2, y2, z2, c2, m)
+    MatriceSegment2(x1, y1, z1, c1, x3, y3, z3, c3, m)
 
     # remplissage colone par colone
     for h in range(N):
@@ -132,23 +126,28 @@ def traceFacette(window, p1, p2, p3, n, m):
         y1 = -1
         y2 = -1
         for i in range(N):
-            if (m[h][i] != -1 and y1 != -1):
+            if (m[h][i][0] != -1 and y1 != -1):
                 y2 = i
-                z2 = m[h][i]
-            if (m[h][i] != -1 and y1 == -1):
+                z2 = m[h][i][0]
+                c2 = m[h][i][1]
+            if (m[h][i][0] != -1 and y1 == -1):
                 y1 = i
-                z1 = m[h][i]
+                z1 = m[h][i][0]
+                c1 = m[h][i][1]
         # remplissage y
         if (y1 != -1 and y2 != -1):
             dy = y2 - y1
             dz = z2 - z1
+            dc = c2 - c1
             e = y2 - y1
             while y2 >= y1:
-                m[h][y1] = z1
+                m[h][y1][0] = z1
+                m[h][y1][1] = c1
                 y1 += 1
                 e -= dz
                 while e <= 0:
                     z1 += 1
+                    c1 += 1
                     e += dy
 
     # draw_matrice(window,m,n)
