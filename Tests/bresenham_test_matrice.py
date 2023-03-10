@@ -101,15 +101,6 @@ def MatriceSegment2(x1, y1, z1, x2, y2, z2, m):
 
 
 def traceFacette( x1, y1, z1, x2, y2, z2, x3, y3, z3, m):
-    print(x1)
-    print(y1)
-    print(z1)
-    print(x2)
-    print(y2)
-    print(z2)
-    print(x3)
-    print(y3)
-    print(z3)
 
     # tracage des 3 segments
     MatriceSegment2(x1, y1, z1, x2, y2, z2, m)
