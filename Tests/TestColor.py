@@ -1,7 +1,5 @@
 from tkinter import *
-import numpy as np
-from Pixel import *
-from Matrice import *
+from src.Matrice import *
 
 
 def init():

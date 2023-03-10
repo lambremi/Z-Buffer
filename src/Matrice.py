@@ -1,5 +1,5 @@
-from Pixel import *
-from Color import *
+from src.Pixel import *
+from src.Color import *
 
 
 # def tracerSegment(window, x1, y1, x2, y2, z1, z2, n):
