@@ -101,6 +101,16 @@ def MatriceSegment2(x1, y1, z1, x2, y2, z2, m):
 
 
 def traceFacette( x1, y1, z1, x2, y2, z2, x3, y3, z3, m):
+    print(x1)
+    print(y1)
+    print(z1)
+    print(x2)
+    print(y2)
+    print(z2)
+    print(x3)
+    print(y3)
+    print(z3)
+
     # tracage des 3 segments
     MatriceSegment2(x1, y1, z1, x2, y2, z2, m)
     MatriceSegment2(x3, y3, z3, x2, y2, z2, m)
@@ -120,16 +130,21 @@ def traceFacette( x1, y1, z1, x2, y2, z2, x3, y3, z3, m):
                 y1 = i
                 z1 = m[h][i]
         # remplissage y
+
+        zdeplacement = 1
+        if (z1 > z2):
+            zdeplacement = -1
+
         if (y1 != -1 and y2 != -1):
             dy = y2 - y1
-            dz = z2 - z1
+            dz = abs(z2 - z1)
             e = y2 - y1
             while y2 >= y1:
                 m[h][y1] = z1
                 y1 += 1
                 e -= dz
                 while e <= 0:
-                    z1 += 1
+                    z1 += zdeplacement
                     e += dy
 
     # draw_matrice(window,m,n)
