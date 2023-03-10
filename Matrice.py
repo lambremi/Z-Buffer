@@ -1,4 +1,5 @@
 from Pixel import *
+from Color import *
 
 
 # def tracerSegment(window, x1, y1, x2, y2, z1, z2, n):
@@ -10,7 +11,7 @@ from Pixel import *
 #         draw_pixel(window,x1,y1,z1,n)
 #         draw_pixel(window,x2,y2,z2,n)
 #     else:
-#         #detection de la granularité la plus fine
+#         #detection de la granularite la plus fine
 #         #y est la plus fine (quart sup ou inf)
 #         #si point de droite a gauche, on inverse
 #         if(x2<x1):
@@ -47,17 +48,32 @@ from Pixel import *
 #                 edz += dx
 
 
-def draw_matrice(window,m, n):
+def draw_matrice(window,m, n, p1, p2, p3, color1=None, color2=None, color3=None):
     for i in range(len(m)):
         for j in range(len(m[i])):
-            if m[i][j]!=-1:
-                draw_pixel(window,i,j,m[i][j],n,"blue")
+            if m[i][j] != -1:
+                p = (i, j, m[i][j])
+                if type(color1) == np.ndarray and type(color2) == np.ndarray:
+                    # b is the barycenter of (p1, color1) and (p2, color2)
+                    b = barycenter_calc(p1, p2, p, color1, color2)
+                    if type(color3) == np.ndarray:
+                        # pb is the geometrical barycenter of p1 and p2
+                        pb = ((p1[0]+p2[0])//2, (p1[1]+p2[1])//2, (p1[2]+p2[2])//2)
+                        # b becomes the barycenter of (pb, b) and (p3, color3)
+                        b = barycenter_calc(p3, pb, p, color3, b)
+                    # creation of a string which represents an RGB code
+                    color = color_creation(b)
+                elif type(color1) != np.ndarray:
+                    color = color1
+                else:
+                    color = "black"
+                draw_pixel(window, i, j, m[i][j], n, color)
 
 
 def MatriceSegment2(x1, y1, z1, x2, y2, z2, m):
     dx = abs(x1 - x2)
     dy = abs(y1 - y2)
-    dz = abs(z2 - z1)
+    dz = abs(z1 - z2)
 
     if (dx == 0):
         m[x1][y1] = z1
@@ -76,7 +92,7 @@ def MatriceSegment2(x1, y1, z1, x2, y2, z2, m):
             zchange = z1
             z1 = z2
             z2 = zchange
-        # detction si on va vers y pos ou neg
+        # detection si on va vers y pos ou neg
         ydeplacement = 1
         if (y1 > y2):
             ydeplacement = -1
@@ -100,8 +116,11 @@ def MatriceSegment2(x1, y1, z1, x2, y2, z2, m):
                 edz += dx
 
 
-def traceFacette(window, x1, y1, z1, x2, y2, z2, x3, y3, z3, n, m):
+def traceFacette(window, p1, p2, p3, n, m):
     # tracage des 3 segments
+    x1, y1, z1 = p1
+    x2, y2, z2 = p2
+    x3, y3, z3 = p3
     MatriceSegment2(x1, y1, z1, x2, y2, z2, m)
     MatriceSegment2(x3, y3, z3, x2, y2, z2, m)
     MatriceSegment2(x1, y1, z1, x3, y3, z3, m)

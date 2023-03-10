@@ -1,4 +1,5 @@
 from tkinter import *
+import numpy as np
 from Pixel import *
 from Matrice import *
 
@@ -46,18 +47,22 @@ def main():
         m3[i] = [-1] * N
 
     a = 10
+    p11, p12, p13, color1 = (20*a,14*a,100), (2*a,45*a,4), (45*a,42*a,80), np.array([255,0,0])
+    p21, p22, p23, color2 = (1*a,25*a,100), (5*a,46*a,4), (45*a,20*a,25), np.array([0,255,0])
+    p31, p32, p33, color3 = (20*a,14*a,100), (2*a,45*a,4), (5*a,5*a,50), np.array([0,0,255])
 
-    traceFacette(window,20*a,14*a,100,2*a,45*a,4,45*a,42*a,80,n,m)
-    traceFacette(window,1*a,25*a,100,5*a,46*a,4,45*a,20*a,25,n,m2)
-    draw_matrice(window,m,n)
-    matriceProfondeur(window,m,m2,"red",n)
-    traceFacette(window,20*a,14*a,100,2*a,45*a,4,5*a,5*a,50,n,m3)
-    matriceProfondeur(window,m,m3,"green",n)
+    traceFacette(window, p11, p12, p13, n, m)
+    traceFacette(window, p21, p22, p23, n,m2)
+    draw_matrice(window, m, n, p11, p12, p13, "blue")
+    matriceProfondeur(window, m, m2, "red", n)
+    traceFacette(window, p31, p32, p33, n, m3)
+    matriceProfondeur(window, m, m3, "green", n)
 
 
 
 
     master.mainloop()
+
 
 if __name__ == "__main__":
     main()
