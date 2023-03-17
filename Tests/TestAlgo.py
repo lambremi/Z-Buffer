@@ -48,7 +48,7 @@ def main():
         m3[i] = [-1] * N
 
     a = 10
-    p11, p12, p13, color1 = (4,40,4), (4,4,1), (4,4,50), np.array([255,0,0])
+    p11, p12, p13, color1 = (10,40,4), (45,45,1), (10,48,50), np.array([255,0,0])
     
 
     traceFacette2(window, p11, p12, p13, n, m)
