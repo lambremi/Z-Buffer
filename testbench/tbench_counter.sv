@@ -1,10 +1,7 @@
 //==============================================================================
-//  Filename    : Testbench of Filter                                              
+//  Filename    : Testbench of counter                                             
 //  Designer    : --
-//  Description : Bench of filter with some stimuli
-//                 1 - Dirac   : Enable to see coeff on output (!! divider)
-//                 2 - Echelon : Enable to see saturation of filter (output must be close to 255 (5V) at DAC output
-//                 3 - Sinus   : Measure Cut-off Frequency 
+//  Description : test du compteur en utilisant tous les signaux 
 //==============================================================================
 module tbench ();
 
