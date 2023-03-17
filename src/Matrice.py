@@ -281,6 +281,7 @@ def traceFacette2(window, p1, color1, p2, color2, p3, color3, n, m):
             for i in range(3):
                 while edcC1[i] <= 0:
                     CC[i] += cdeplacementCourt1[i]
+                    edcC1[i] += dxC1
 
         elif(X2!=X3):
             print("court2")

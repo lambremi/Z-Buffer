@@ -1,4 +1,4 @@
-N = 50     #Number of pixel
+N = 500     #Number of pixel
 Size = 1000  #sizeWindows
 n = Size/N
 marge = 10

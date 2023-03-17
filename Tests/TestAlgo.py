@@ -2,6 +2,7 @@ from tkinter import *
 import sys
 sys.path.append('../src/')
 from Matrice import *
+from random import randint
 
 def init():
     master = Tk()
@@ -38,8 +39,15 @@ def main():
 
 
     a = 10
-    p11, p12, p13 = (10*a,40*a,4*a), (45*a,45*a,1*a), (10*a,48*a,50*a)
-    color1, color2, color3 = np.array([255,0,0]), np.array([0,255,0]), np.array([0,0,255])
+    p11, p12, p13 = (randint(0, N // a - 1) * a, randint(0, N // a - 1) * a, randint(0, N // a - 1)), (randint(0, N // a - 1) * a, randint(0, N // a - 1) * a, randint(0, N // a - 1)), (randint(0, N // a - 1) * a, randint(0, N // a - 1) * a, randint(0, N // a - 1))
+    color1, color2, color3 = np.array([randint(0, 255), randint(0, 255), randint(0, 255)]), np.array([randint(0, 255), randint(0, 255), randint(0, 255)]), np.array([randint(0, 255), randint(0, 255), randint(0, 255)])
+    # color1, color2, color3 = np.array([randint(0,255)]*3), np.array([randint(0,255)]*3), np.array([randint(0,255)]*3)
+
+    # p11, p12, p13 = (440, 150, 4) , (60, 90, 11) , (280, 280, 35)
+    # color1, color2, color3 = np.array ( [ 9 , 235 , 72 ] ) , np.array ( [ 171 , 219 , 88 ] ) , np.array ( [ 155 , 159 , 219 ] )
+
+    print(p11, ',', p12, ',', p13)
+    print('np.array ( [', color1[0], ',', color1[1], ',', color1[2], '] ) ,', 'np.array ( [', color2[0], ',', color2[1], ',', color2[2], '] ) ,', 'np.array ( [', color3[0], ',', color3[1], ',', color3[2], '] )')
 
     traceFacette2(window, p11, color1, p12, color2, p13, color3, n, m)
     draw_matrice(window, m, n)
