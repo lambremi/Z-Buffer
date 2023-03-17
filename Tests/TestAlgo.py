@@ -17,9 +17,7 @@ def main():
     # draw_pixel(window, 0, 9,255, n)
     # draw_pixel(window, 9, 0,255, n)
 
-    m = [-1] * N
-    for i in range(N):
-        m[i] = [-1] * N
+    m = [[[-1, -1] for _ in range(N)] for _ in range(N)]
 
     # MatriceSegment2(20,24,1,20,30,1,m) #1
     # MatriceSegment2(22,24,1,25,30,1,m) #2
@@ -38,21 +36,13 @@ def main():
     # MatriceSegment2(16,24,1,10,30,1,m) #15
     # MatriceSegment2(18,24,1,15,30,1,m) #16
 
-     # Initialisation de la matrice
-    
-    m2 = [-1] * N
-    for i in range(N):
-        m2[i] = [-1] * N
-    m3 = [-1] * N
-    for i in range(N):
-        m3[i] = [-1] * N
 
     a = 10
-    p11, p12, p13, color1 = (10,40,4), (45,45,1), (10,48,50), np.array([255,0,0])
-    
+    p11, p12, p13 = (10*a,40*a,4*a), (45*a,45*a,1*a), (10*a,48*a,50*a)
+    color1, color2, color3 = np.array([255,0,0]), np.array([0,255,0]), np.array([0,0,255])
 
-    traceFacette2(window, p11, p12, p13, n, m)
-    draw_matrice(window, m, n, p11, p12, p13, "blue")
+    traceFacette2(window, p11, color1, p12, color2, p13, color3, n, m)
+    draw_matrice(window, m, n)
 
     x1, y1, z1 = p11
     draw_pixel(window,x1,y1,z1, n, "red")
