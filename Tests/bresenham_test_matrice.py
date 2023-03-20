@@ -156,11 +156,11 @@ from Matrice import *
 #     return m1
 
 
-matrice = [[-1 for _ in range (N)] for _ in range (N)]
+matrice = [[[-1,-1] for _ in range (N)] for _ in range (N)]
 matrice2 = [[-1 for _ in range (N)] for _ in range (N)]
 
 m=[[-1 for _ in range(3)] for _ in range (3)]
-liste_triangle=[[-1 for _ in range(10) ] for _ in range (100)]
+liste_triangle=[[-1 for _ in range(13) ] for _ in range (100)]
 
 #lecture matrice
 file = open('3points.txt', "r")
@@ -176,8 +176,9 @@ for line in lines :
             liste_triangle[compteur][i]=int(line.split(sep=' ')[0])
             liste_triangle[compteur][i+1]=int(line.split(sep=' ')[1])
             liste_triangle[compteur][i+2]=int(line.split(sep=' ')[2])
-            i+=3
-        if(i==10) :
+            liste_triangle[compteur][i+3]=int(line.split(sep=' ')[3])
+            i+=4
+        if(i==13) :
             compteur +=1
     
 print (liste_triangle)
@@ -195,17 +196,24 @@ if(int(test)==0):
     file2 = open('resultat_triangle_seul.txt',"w+")
     while (liste_triangle[parcours][0]!=-1):
         p1=liste_triangle[parcours][1],liste_triangle[parcours][2],liste_triangle[parcours][3]
-        p2=liste_triangle[parcours][4],liste_triangle[parcours][5],liste_triangle[parcours][6]
-        p3=liste_triangle[parcours][7],liste_triangle[parcours][8],liste_triangle[parcours][9]
-        traceFacette2(p1,p2,p3,matrice)
+        p2=liste_triangle[parcours][5],liste_triangle[parcours][6],liste_triangle[parcours][7]
+        p3=liste_triangle[parcours][9],liste_triangle[parcours][10],liste_triangle[parcours][11]
+        color1=np.array([liste_triangle[parcours][4]]*3)
+        color2=np.array([liste_triangle[parcours][8]]*3)
+        color3=np.array([liste_triangle[parcours][12]]*3)
+
+        traceFacette2_test(p1,color1,p2,color2,p3,color3,matrice)
         
         file2.write('\n\n'+liste_triangle[parcours][0]+'\n\n')
         for ligne in matrice :
             for colonne in ligne :
-                file2.write(str(colonne)+' ')
+                if(type(colonne[1])==np.ndarray) :
+                    file2.write(str(colonne[0])+' '+str(colonne[1][0])+' ')
+                else : 
+                    file2.write(str(colonne[0])+' '+str(colonne[1])+' ')
             file2.write('\n')
         parcours +=1
-        matrice=[[-1 for _ in range (N)] for _ in range (N)]
+        matrice=[[[-1,-1] for _ in range (N)] for _ in range (N)]
 
 else :
     file2 = open('resultat_2_triangle.txt',"w+")
