@@ -114,3 +114,4 @@ begin
 		next_req = 4;
 	end
 end
+endmodule
