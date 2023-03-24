@@ -1,16 +1,16 @@
 //Module fifo and contention tree merged
 module fifo_contention_tree #(parameter MEM_LENGTH = 8, PIXEL_WIDTH = 16) (
 // == Inputs =============================================================================  
-  input logic clk, reset;
-  input logic [PIXEL_WIDTH-1:0] pix_in_1, pix_in_2, pix_in_3, pix_in_4;
-  input logic rdy_z_buffer;
-  input logic load_1, load_2, load_3, load_4;
+  input logic clk, reset,
+  input logic [PIXEL_WIDTH-1:0] pix_in_1, pix_in_2, pix_in_3, pix_in_4,
+  input logic rdy_z_buffer,
+  input logic load_1, load_2, load_3, load_4,
 
 // == Outputs ============================================================================
-  output logic [PIXEL_WIDTH-1:0] pix_out;
-  output logic [MEM_LENGTH-1:0] fill_1, fill_2, fill_3, fill_4;
-  output logic req_1, req_2, req_3, req_4;
-  output logic send_z_buffer;
+  output logic [PIXEL_WIDTH-1:0] pix_out,
+  output logic [MEM_LENGTH-1:0] fill_1, fill_2, fill_3, fill_4,
+  output logic req_1, req_2, req_3, req_4,
+  output logic send_z_buffer
 );
 
 // == Internal signals ===========================================================================
@@ -88,7 +88,7 @@ module fifo_contention_tree #(parameter MEM_LENGTH = 8, PIXEL_WIDTH = 16) (
     .req_2(req_2),
     .req_3(req_3),
     .req_4(req_4),
-    .send_z_buffer(send_z_buffer)
+    .send_z_buffer(send_z_buffer),
     .pix_out(pix_out)
   );
 endmodule

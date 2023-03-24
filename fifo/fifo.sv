@@ -1,25 +1,25 @@
 //fifo module merging fifo controller, memory block and counter
 module fifo #(parameter MEM_LENGTH = 8, PIX_WIDTH = 16) (
   // == Inputs ===============================================
-  input logic clk, reset;
-  input logic [PIX_WIDTH-1:0] pix_in;
-  input logic req_out;
-  input logic load;
-
-  // == Internal signals =====================================
-  logic [`MEM_LENGTH-1:0] cursor1, cursor1_en;
-  logic [`MEM_LENGTH-1:0] cursor2, cursor2_en;
-  logic fill, fill_en, fill_plus_minus;
-  logic [`MEM_LENGTH-1:0] address, RW, enable;
+  input logic clk, reset,
+  input logic [PIX_WIDTH-1:0] pix_in,
+  input logic req_out,
+  input logic load,
 
   // == Outputs ==============================================
-  output logic [PIX_WIDTH-1:0] pix_out;
-  output logic [MEM_LENGTH-1:0] fill;
-  output logic ack_out;
+  output logic [PIX_WIDTH-1:0] pix_out,
+  output logic [MEM_LENGTH-1:0] fill,
+  output logic ack_out
 );
 
+  // == Internal signals =====================================
+  logic [MEM_LENGTH-1:0] cursor1, cursor1_en;
+  logic [MEM_LENGTH-1:0] cursor2, cursor2_en;
+  logic fill_en, fill_plus_minus;
+  logic [MEM_LENGTH-1:0] address, RW, enable;
+
 // == Modules ====================================
-  counter #(.BITS(`MEM_LENGTH)) counter1(  
+  counter #(.BITS(MEM_LENGTH)) counter1(  
     .clk(clk),         
     .reset(reset),       
 
@@ -27,14 +27,14 @@ module fifo #(parameter MEM_LENGTH = 8, PIX_WIDTH = 16) (
     .enable(cursor1_en),
     .inverseCounter(1'b0), 
     .load(1'b0), 
-    .data(`MEM_LENGTH'b0), 
+    .data({MEM_LENGTH{1'b0}}), 
 
     // Output counter
     .count(cursor1)  
   );
 
 
-  counter #(.BITS(`MEM_LENGTH)) counter2(  
+  counter #(.BITS(MEM_LENGTH)) counter2(  
     .clk(clk),         
     .reset(reset),       
 
@@ -42,14 +42,14 @@ module fifo #(parameter MEM_LENGTH = 8, PIX_WIDTH = 16) (
     .enable(cursor2_en),
     .inverseCounter(1'b0), 
     .load(1'b0), 
-    .data(`MEM_LENGTH'b0), 
+    .data({MEM_LENGTH{1'b0}}), 
 
     // Outputs
     .count(cursor2)  
   );
 
 
-  counter #(.BITS(`MEM_LENGTH)) fillCounter(  
+  counter #(.BITS(MEM_LENGTH)) fillCounter(  
     .clk(clk),         
     .reset(reset),       
 
@@ -57,14 +57,14 @@ module fifo #(parameter MEM_LENGTH = 8, PIX_WIDTH = 16) (
     .enable(fill),
     .inverseCounter(fill_plus_minus), 
     .load(1'b0), 
-    .data(`MEM_LENGTH'b0), 
+    .data({MEM_LENGTH{1'b0}}), 
 
     // Outputs
     .count(fill)  
   );
 
 
-  fifoController #(.MEM_LENGTH(`MEM_LENGTH)) controller(
+  fifoController #(.MEM_LENGTH(MEM_LENGTH)) controller(
     .clk(clk),
     .reset(reset),
     
@@ -87,7 +87,7 @@ module fifo #(parameter MEM_LENGTH = 8, PIX_WIDTH = 16) (
   );
 
 
-  memoryBlock #(.MEM_LENGTH(`MEM_LENGTH), .PIX_WIDTH(`PIX_WIDTH)) memory(
+  memoryBlock #(.MEM_LENGTH(MEM_LENGTH), .PIX_WIDTH(PIX_WIDTH)) memory(
     .clk(clk),
     .reset(reset),
 

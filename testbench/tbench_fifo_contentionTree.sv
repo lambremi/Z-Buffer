@@ -11,13 +11,13 @@ module tbenchFifoContentionTree();
   // == Signaux d'entrée ==
   bit clk;
   bit reset;
-  logic [PIXEL_WIDTH-1:0] pix_in_1,pix_in_2,pix_in_3,pix_in_4;
+  logic [`PIXEL_WIDTH-1:0] pix_in_1,pix_in_2,pix_in_3,pix_in_4;
   logic rdy_z_buffer;
   logic load_1, load_2, load_3, load_4;
 
   // == Signaux de sortie ==
-  logic [PIXEL_WIDTH-1:0] pix_out;
-  logic [MEM_LENGTH-1:0] fill_1, fill_2, fill_3, fill_4;
+  logic [`PIXEL_WIDTH-1:0] pix_out;
+  logic [`MEM_LENGTH-1:0] fill_1, fill_2, fill_3, fill_4;
   logic req_1, req_2, req_3, req_4;
   logic send_z_buffer;
 
@@ -59,7 +59,7 @@ module tbenchFifoContentionTree();
 
   initial begin
     reset = 1;
-    load = 0;
+    load_1 = 0; load_2 = 0; load_3 = 0; load_4 = 0;
     pix_in_1 = 0; pix_in_2 = 0; pix_in_3 = 0; pix_in_4 = 0;
     rdy_z_buffer = 0;
     @(negedge clk)
