@@ -28,11 +28,12 @@ always @(posedge clk) begin
 	if (enable && ~RW) begin
 		ack_out = 1;
 		pix_out = address;
+		last_ack = 1;
 	end
 	else if(last_ack) last_ack = 0;
 	else begin
 		ack_out = 0;
-		//address = `MEM_LENGTH'b0;
+		pix_out = 0;
 	end
 end
 

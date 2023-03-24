@@ -1,15 +1,24 @@
 //fifo module merging fifo controller, memory block and counter
 module fifo #(parameter MEM_LENGTH = 8, PIX_WIDTH = 16) (
+  // == Inputs ===============================================
   input logic clk, reset;
   input logic [PIX_WIDTH-1:0] pix_in;
   input logic req_out;
+  input logic load;
 
+  // == Internal signals =====================================
+  logic [`MEM_LENGTH-1:0] cursor1, cursor1_en;
+  logic [`MEM_LENGTH-1:0] cursor2, cursor2_en;
+  logic fill, fill_en, fill_plus_minus;
+  logic [`MEM_LENGTH-1:0] address, RW, enable;
+
+  // == Outputs ==============================================
   output logic [PIX_WIDTH-1:0] pix_out;
   output logic [MEM_LENGTH-1:0] fill;
   output logic ack_out;
 );
 
-// == Wires ====================================
+// == Modules ====================================
   counter #(.BITS(`MEM_LENGTH)) counter1(  
     .clk(clk),         
     .reset(reset),       
