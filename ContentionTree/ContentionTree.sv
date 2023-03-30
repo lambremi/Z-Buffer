@@ -1,10 +1,10 @@
 //Module ContentionTree
 module contention_tree #(parameter integer LENGTH = 8, parameter PIXEL_WIDTH = 8)
 	(
-	input logic	[PIXEL_WIDTH-1:0]	pix_in_1
-	input logic	[PIXEL_WIDTH-1:0]	pix_in_2
-	input logic	[PIXEL_WIDTH-1:0]	pix_in_3
-	input logic	[PIXEL_WIDTH-1:0]	pix_in_4 
+	input logic	[PIXEL_WIDTH-1:0]	pix_in_1,
+	input logic	[PIXEL_WIDTH-1:0]	pix_in_2,
+	input logic	[PIXEL_WIDTH-1:0]	pix_in_3,
+	input logic	[PIXEL_WIDTH-1:0]	pix_in_4,
 	input logic							clk,
 	input logic	 [LENGTH-1:0] fill_1,
 	input logic	 [LENGTH-1:0] fill_2,
@@ -23,95 +23,96 @@ module contention_tree #(parameter integer LENGTH = 8, parameter PIXEL_WIDTH = 8
 	output logic	[PIXEL_WIDTH-1:0]	pix_out
 );
 // == Variable Declaration =======================
+	
+typedef enum logic [2:0] {
+		RESET,
+		HARVEST,
+		SEND,
+		WAIT,
+} fsm_state_t;
 
-integer req;
-integer next_req;
+fsm_state_t current_state;
+fsm_state_t next_state;
 
 // == Main Code ==================================
 always_ff @(posedge clk)
 begin 
-	pix_out <= pix_in_1;
-	send_z_buffer <= 0;
-
-	if (rdy_z_buffer) begin
-		req <= next_req;
-		case (req)
-      0: begin
-				req_1 <= 0;
-				req_2 <= 0;
-				req_3 <= 0;
-				req_4 <= 0;
-			end
-			1: begin
-				req_1 <= 1;
-				req_2 <= 0;
-				req_3 <= 0;
-				req_4 <= 0;
-			end
-			2: begin
-				req_1 <= 0;
-				req_2 <= 1;
-				req_3 <= 0;
-				req_4 <= 0;
-			end
-			3: begin
-				req_1 <= 0;
-				req_2 <= 0;
-				req_3 <= 1;
-				req_4 <= 0;
-			end
-			4: begin
-				req_1 <= 0;
-				req_2 <= 0;
-				req_3 <= 0;
-				req_4 <= 1;
-			end
-		endcase
-		if (ack_1) begin
-			pix_out <= pix_in_1;
-			send_z_buffer <= 1;
-			req_1 <= 0;
-		end
-		else if (ack_2) begin
-			pix_out <= pix_in_2;
-			send_z_buffer <= 1;
-			req_2 <= 0;
-		end
-		else if (ack_3) begin
-			pix_out <= pix_in_3;
-			send_z_buffer <= 1;
-			req_3 <= 0;
-		end
-		else if (ack_4) begin
-			pix_out <= pix_in_4;
-			send_z_buffer <= 1;
-			req_4 <= 0;
-		end
+	if (reset) begin
+		current_state <= RESET;
 	end
 	else begin
-			req_1 <= 0;
-			req_2 <= 0;
-			req_3 <= 0;
-			req_4 <= 0;
+		current_state <= next_state;
 	end
 end
 
 always_comb
 begin
-  if (fill_1 == 0 && fill_2 == 0 && fill_3 == 0 && fill_4 == 0) begin
-    next_req = 0;
-  end
-	else if (fill_1 >= fill_2 && fill_1 >= fill_3 && fill_1 >= fill_4) begin
-		next_req = 1;
-	end
-	else if (fill_2 > fill_1 && fill_2 >= fill_3 && fill_2 >= fill_4) begin
-		next_req = 2;
-	end	 
-	else if (fill_3 > fill_1 && fill_3 > fill_2 && fill_3 >= fill_4) begin
-		next_req = 3;
-	end
-	else begin
-		next_req = 4;
-	end
+	case(current_state)
+	 RESET: begin
+			req_1 = 0;
+			req_2 = 0;
+			req_3 = 0;
+			req_4 = 0;
+			send_z_buffer = 0;
+			assign pix_out = PIXEL_WIDTH'bz;
+			if (rdy_z_buffer) next_state = HARVEST;
+			else next_state = RESET;
+	 end
+
+	 HARVEST: begin
+			if (fill_1 == 0 && fill_2 == 0 && fill_3 == 0 && fill_4 == 0) begin
+				next_state = HARVEST;
+			end
+			else if (fill_1 >= fill_2 && fill_1 >= fill_3 && fill_1 >= fill_4) begin
+				req_1 = 1;
+				next_state = SEND;
+			end
+			else if (fill_2 > fill_1 && fill_2 >= fill_3 && fill_2 >= fill_4) begin
+				req_2 = 1;
+				next_state = SEND;
+			end	 
+			else if (fill_3 > fill_1 && fill_3 > fill_2 && fill_3 >= fill_4) begin
+				req_3 = 1;
+				next_state = SEND;
+			end
+			else begin
+				req_4 = 1;
+				next_state = SEND;
+			end
+	 end
+
+	 SEND: begin
+			if (ack_1) begin
+				assign pix_out = pix_in_1;
+				send_z_buffer = 1;
+				next_state = WAIT;
+			end
+			else if (ack_2) begin
+				assign pix_out = pix_in_2;
+				send_z_buffer = 1;
+				next_state = WAIT;
+			end
+			else if (ack_3) begin
+				assign pix_out = pix_in_3;
+				send_z_buffer = 1;
+				next_state = WAIT;
+			end
+			else if (ack_4) begin
+				assign pix_out = pix_in_4;
+				send_z_buffer = 1;
+				next_state = WAIT;
+			end
+	 end	
+
+	 WAIT: begin
+			if (!rdy_z_buffer) begin
+				send_z_buffer = 0;
+				next_state = RESET;
+			end
+			else begin
+				next_state = WAIT;
+			end
+	 end
+	endcase
 end
 endmodule
