@@ -123,34 +123,29 @@ def traceFacette2(window, p1, p2, p3, n, m):
             edzL += dxL
 
         if(X2 >= X1):
-            print("court1")
             edyC1 -= dyC1
             edzC1 -= dzC1
-            while edyC1 <= 0:
+            while edyC1 <= 0 and dxC1!=0:
                 YC += ydeplacementCourt1
                 edyC1 += dxC1
-            while edzC1 <= 0:
+            while edzC1 <= 0 and dxC2!=0:
                 ZC += zdeplacementCourt1
                 edzC1 += dxC1
-        elif(X2!=X3):
-            print("court2")
+        else:
             edyC2 -= dyC2
             edzC2 -= dzC2
-            while edyC2 <= 0:
+            while edyC2 <= 0 and dxC2!=0:
                 YC += ydeplacementCourt2
                 edyC2 += dxC2
-            print("FIN1")
-            while edzC2 <= 0:
+            while edzC2 <= 0 and dxC2!=0:
                 ZC += zdeplacementCourt2
                 edzC2 += dxC2
-            print("FIN2")
 
     
 def fillMatrice(window,X1,YL,ZL,YC,ZC,m):
     if(YL>YC):
         YL, YC = YC, YL
         ZL, ZC = ZC, ZL
-    print(X1,YL,YC,ZC,ZL)
 
     zdeplacement = 1
     if (ZL > ZC):

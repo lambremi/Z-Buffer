@@ -278,6 +278,16 @@
        apply_no_weight="true"
        apply_with_weight="true"
        only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect825-9-4-1"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -286,9 +296,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="198.01847"
-     inkscape:cy="437.38554"
+     inkscape:zoom="0.70000001"
+     inkscape:cx="62.483477"
+     inkscape:cy="243.95302"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -318,7 +328,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -345,7 +355,7 @@
          id="tspan817"
          x="43.896564"
          y="130.06877"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:15.29785538px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.45893192px">TILES</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:15.29785538px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.45893192px">TILER</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 0,172 c 3.3335978,0 6.6669311,0 10,0"
@@ -353,7 +363,7 @@
        inkscape:connector-curvature="0"
        inkscape:path-effect="#path-effect825"
        inkscape:original-d="m 0,172 c 3.3335978,-2.6e-4 6.6669311,-2.6e-4 10,0"
-       transform="translate(0,10.000002)" />
+       transform="translate(0,15)" />
     <g
        id="g881"
        transform="translate(0,20)">
@@ -485,12 +495,12 @@
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.02212191px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.18066366px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="19.750811"
-       y="183.68694"
+       y="188.68694"
        id="text986-0"><tspan
          sodipodi:role="line"
          id="tspan984-3"
          x="19.750811"
-         y="183.68694"
+         y="188.68694"
          style="stroke-width:0.18066366px">Load</tspan></text>
     <text
        xml:space="preserve"
@@ -513,7 +523,7 @@
          id="tspan984-8-8"
          x="24.861673"
          y="236.79704"
-         style="stroke-width:0.18066366px">Point 1</tspan></text>
+         style="stroke-width:0.18066366px">Point 2</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.02212191px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.18066366px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -524,7 +534,7 @@
          id="tspan984-8-4"
          x="24.700346"
          y="266.79639"
-         style="stroke-width:0.18066366px">Point 1</tspan></text>
+         style="stroke-width:0.18066366px">Point 3</tspan></text>
     <g
        transform="translate(190,4.9999995)"
        id="g881-9-0">
@@ -733,5 +743,24 @@
          x="19.286526"
          y="158.47339"
          style="stroke-width:0.18066366px">Clock</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 0,172 c 3.3335978,0 6.6669311,0 10,0"
+       id="path823-4-4-4"
+       inkscape:connector-curvature="0"
+       inkscape:path-effect="#path-effect825-9-4-1"
+       inkscape:original-d="m 0,172 c 3.3335978,-2.6e-4 6.6669311,-2.6e-4 10,0"
+       transform="translate(0,5)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.02212191px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.18066366px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="19.286526"
+       y="178.47339"
+       id="text986-2-8"><tspan
+         sodipodi:role="line"
+         id="tspan984-7-7"
+         x="19.286526"
+         y="178.47339"
+         style="stroke-width:0.18066366px">Pause</tspan></text>
   </g>
 </svg>
