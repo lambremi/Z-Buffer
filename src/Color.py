@@ -12,7 +12,7 @@ def barycenter_calc(p1, p2, p, color1, color2):
 
 
 def color_creation(color):
-    return "#%02x%02x%02x" % (color[0], color[1], color[2])
+    return "#%02x%02x%02x" % (min(255,color[0]), min(255,color[1]), min(255,color[2]))
 
 
 if __name__ == "__main__":

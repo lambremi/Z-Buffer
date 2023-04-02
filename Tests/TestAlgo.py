@@ -2,6 +2,7 @@ from tkinter import *
 import sys
 sys.path.append('../src/')
 from Matrice import *
+from random import randint
 
 def init():
     master = Tk()
@@ -17,9 +18,7 @@ def main():
     # draw_pixel(window, 0, 9,255, n)
     # draw_pixel(window, 9, 0,255, n)
 
-    m = [-1] * N
-    for i in range(N):
-        m[i] = [-1] * N
+    m = [[[-1, -1] for _ in range(N)] for _ in range(N)]
 
     # MatriceSegment2(20,24,1,20,30,1,m) #1
     # MatriceSegment2(22,24,1,25,30,1,m) #2
@@ -38,21 +37,20 @@ def main():
     # MatriceSegment2(16,24,1,10,30,1,m) #15
     # MatriceSegment2(18,24,1,15,30,1,m) #16
 
-     # Initialisation de la matrice
-    
-    m2 = [-1] * N
-    for i in range(N):
-        m2[i] = [-1] * N
-    m3 = [-1] * N
-    for i in range(N):
-        m3[i] = [-1] * N
 
     a = 10
-    p11, p12, p13, color1 = (10,40,4), (45,45,1), (10,48,50), np.array([255,0,0])
-    
+    p11, p12, p13 = (randint(0, N // a - 1) * a, randint(0, N // a - 1) * a, randint(0, N // a - 1)), (randint(0, N // a - 1) * a, randint(0, N // a - 1) * a, randint(0, N // a - 1)), (randint(0, N // a - 1) * a, randint(0, N // a - 1) * a, randint(0, N // a - 1))
+    color1, color2, color3 = np.array([randint(0, 255), randint(0, 255), randint(0, 255)]), np.array([randint(0, 255), randint(0, 255), randint(0, 255)]), np.array([randint(0, 255), randint(0, 255), randint(0, 255)])
+    # color1, color2, color3 = np.array([randint(0,255)]*3), np.array([randint(0,255)]*3), np.array([randint(0,255)]*3)
 
-    traceFacette2(window, p11, p12, p13, n, m)
-    draw_matrice(window, m, n, p11, p12, p13, "blue")
+    # p11, p12, p13 = (440, 150, 4) , (60, 90, 11) , (280, 280, 35)
+    # color1, color2, color3 = np.array ( [ 9 , 235 , 72 ] ) , np.array ( [ 171 , 219 , 88 ] ) , np.array ( [ 155 , 159 , 219 ] )
+
+    print(p11, ',', p12, ',', p13)
+    print('np.array ( [', color1[0], ',', color1[1], ',', color1[2], '] ) ,', 'np.array ( [', color2[0], ',', color2[1], ',', color2[2], '] ) ,', 'np.array ( [', color3[0], ',', color3[1], ',', color3[2], '] )')
+
+    traceFacette2(window, p11, color1, p12, color2, p13, color3, n, m)
+    draw_matrice(window, m, n)
 
     x1, y1, z1 = p11
     draw_pixel(window,x1,y1,z1, n, "red")

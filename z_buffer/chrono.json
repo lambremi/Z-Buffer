@@ -1,0 +1,12 @@
+{signal: [
+    {name: 'clk', wave: 'P.......|...'},
+    {name: 'pix_in', wave: '33......|...', data:['','pix_in','']},
+    {name: 'ready', wave: '1.0.....|...'},
+    {name: 'ack', wave: '010.....|...'},
+    {name: 'r-w', wave: '0.1.0...|...'},
+    {name: 'z-pix', wave: '3..3....|...', data :['','z_pix']},
+    {name: 'pix_out', wave: '3...3.3.|...', data :['','pix_in']},
+    {name: 'enable', wave: '0..1010.|...'},
+    {name: 'addr', wave: '3.3.3...|...', data:['','pix_in_x/y','']},
+    
+  ]}

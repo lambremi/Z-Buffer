@@ -51,7 +51,7 @@ from src.Color import *
 def draw_matrice(window, m, n):
     for i in range(len(m)):
         for j in range(len(m[i])):
-            if m[i][j][0]!= -1:
+            if m[i][j][0] != -1:
                 draw_pixel(window, i, j, m[i][j][0], n, color_creation(m[i][j][1]))
 
 
@@ -97,8 +97,10 @@ def MatriceSegment2(x1, y1, z1, color1, x2, y2, z2, color2, m):
             e -= dy
             edz -= dz
             edc -= dc
-            while e <= 0:
+            while e <= 0 and x2 >= x1:
                 y1 += ydeplacement
+                m[x1][y1][0] = z1
+                m[x1][y1][1] = c1
                 e += dx
             while edz <= 0:
                 z1 += zdeplacement
